@@ -1,13 +1,14 @@
 import React from 'react';
 import { Card, CardContent, CardActions, Divider } from '@mui/material';
-import cars from '../cars.json';
+// import cars from '../cars.json';
 import { Link } from 'react-router-dom';
 
-const Home = () => {
-    console.log('CARS', cars)
+const Home = (props) => {
+    // console.log('CARS', cars)
     return (
         <div className="card-container">
-            {cars.map((car, idx) => (
+             {/* Change cars to props.cars and remove the cars.json import above */}
+            {props.cars.map((car, idx) => (
                 <Card key={idx} className="card">
                     <CardContent className="text-gray">
                         <span>{car.Name.toUpperCase()}</span>
