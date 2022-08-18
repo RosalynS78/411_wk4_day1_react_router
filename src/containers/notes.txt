@@ -1,0 +1,53 @@
+The Events in Order
+1. At app start up, the HomeContainer is called -->
+
+2. This will call the connect function which calls the MSTP & the MDTP functions who create objects with keys that point to the action functions in actions.js file -->
+
+3.Then the "dumb" component function is called and created within this context so it has access to the state data and actions via props -->
+
+4.From the "dumb" component, a form submit will call props.addCar() with a value: "2008 Toyota Prius" -->
+
+5.Then the anonymous function, sitting at the addCar property on the object returned from the MDTP function, is called with the argument: "2008 Toyota Prius" -->
+
+6.This calls the dispatch() function -->
+
+7.Which then calls the addCar() action and passes the argument: "2008 Toyota Prius" -->
+
+8.This fires the addCar() Action Creator function -->
+
+9.Which returns an Action Object that will look like: {type: ADD_CAR, value: "2008 Toyota Prius"} to the reducer: cars() -->
+
+10.The cars() reducer stop at the case: ADD_CAR and then creates a new array object using the current state plus the value: "2008 Toyota Prius" -->
+
+11.Once state is updated the connect function will be called which calls the MSTP function who provides the new state to the "dumb" component -->
+
+12.And the user sees the update on the screen. -->
+
+Repeat. -->
+Repeat. -->
+Repeat. -->
+
+MSTP & MDTP are just abbreviations for the functions mapStateToProps and mapDispatchToProps
+
+summary
+We create Redux Action Creators (again, these are just plain JS functions) that return Actions(just a plain ol' JS object) with the properties: type and value.
+Those Action objects are passed to the Reducers (just plain switch/case statements) that do and return different things based on action.type case.
+The container uses Redux's tools: mapStateToProps, mapDispatchToProps, and connect to give the component access to the global state properties and action creators to change that state via props. We tie all of that together in the container file so that the "dumb" component only manages visual representation presentation to the user.
+
+
+
+using bind
+import { connect } from 'react-redux'
+import Home from '../components/Home'
+// import bindActionCreators tool to be able to use it
+import { bindActionCreators } from 'redux'
+import { addCar, removeCar } from './actions'
+
+//...code removed for simplicity...
+//...MSTP function here...
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({ addCar, removeCar }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
